@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: postgres-bd-proy2
+    restart: always
+    ports:
+      - "5444:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin54321
+      POSTGRES_DB: bd_compra_venta_invetario
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
