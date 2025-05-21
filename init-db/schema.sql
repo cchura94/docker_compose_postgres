@@ -1,5 +1,6 @@
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
     email varchar(150) NOT NULL UNIQUE,
     password varchar(255) NOT NULL
 );
@@ -34,6 +35,20 @@ CREATE TABLE role_user(
     FOREIGN KEY (user_id) REFERENCES users(id)    
 );
 
+CREATE TABLE personas (
+    id SERIAL PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    fecha_nacimiento DATE,
+    genero VARCHAR(20),
+    telefono VARCHAR(20),
+    direccion TEXT,
+    documento_identidad VARCHAR(50) UNIQUE,
+    tipo_documento VARCHAR(20),
+    nacionalidad VARCHAR(50),
+    user_id INT NOT NULL UNIQUE REFERENCES users(id)
+);
+
 CREATE TABLE entidad_comercial (
     id SERIAL PRIMARY KEY,
     tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('cliente', 'proveedor')),
@@ -62,6 +77,13 @@ CREATE TABLE sucursales (
     direccion varchar(255) NOT NULL,
     telefono varchar(20) NOT NULL,
     ciudad varchar(100) NOT NULL
+);
+
+CREATE TABLE sucursal_user (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id),
+    sucursal_id INT NOT NULL REFERENCES sucursales(id),
+    role_id INT REFERENCES roles(id)
 );
 
 CREATE TABLE almacenes (
